@@ -1,0 +1,31 @@
+{
+  "name": "erdoflix",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/js-dersleri/ErdoFlix.git"
+  },
+  "author": "Erdinc Akdogan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/js-dersleri/ErdoFlix/issues"
+  },
+  "homepage": "https://github.com/js-dersleri/ErdoFlix#readme",
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "http-status": "^1.5.3",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.5",
+    "nodemailer": "^6.7.8",
+    "nodemon": "^2.0.19",
+    "uuid": "^9.0.0"
+  }
+}
