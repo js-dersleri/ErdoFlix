@@ -12,4 +12,5 @@ router.route("/login").post(validate(schema.loginUser, "body"), UserController.l
 router.route("/resetPassword").patch(validate(schema.resetUserPassword, "body"), UserController.resetPassword)
 router.route("/updateUser/:id").patch(idChecker, NormalUserAuthenticateToken, validate(schema.updateUser, "body"), UserController.updateUser)
 router.route("/deleteUser/:id").delete(idChecker, UserController.deleteUser)
+router.route("/profile/:username").get(NormalUserAuthenticateToken, UserController.getProfile)
 module.exports = router

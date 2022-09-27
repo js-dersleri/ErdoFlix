@@ -12,6 +12,7 @@ const createUser = Joi.object({
     phones: Joi.string().required().min(11).pattern(new RegExp(/[0-9]{11,}$/)).message('Enter a eligible phone number'),
     isAdmin: Joi.boolean().default(true),
     isCosmuter: Joi.boolean().default(false),
+    username: Joi.string().required().min(3),
 })
 const resetUserPassword = Joi.object({
     email: Joi.string().email().regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).required().min(8)
