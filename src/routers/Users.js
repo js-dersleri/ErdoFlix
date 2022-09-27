@@ -1,6 +1,6 @@
 const express = require("express")
 const UserController = require("../controllers/UserController")
-const schema = require("../validatons/User")
+const schema = require("../validations/User")
 const validate = require("../middleware/validate")
 const { NormalUserAuthenticateToken, AdminUserAuthenticateToken } = require("../middleware/authenticate")
 const idChecker = require("../middleware/idChecker")

@@ -19,11 +19,11 @@ app.listen(PORT, () => {
 })
 app.get('/', (req, res) => {
     res.json({
-        message: "Selamın Aleyküm",
+        message: "Welcome",
     });
 })
 app.get("/main-page", (req, res) => {
     res.json({
-        message: "Ben ana sayfayım"
+        message: "Home Page"
     })
 })

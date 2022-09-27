@@ -76,6 +76,7 @@ class UserController {
                 delete user.password
                 res.status(hs.OK).send({
                     message: "Login succesfull",
+                    user,
                     
                 })
             })
@@ -142,6 +143,23 @@ class UserController {
         })
             .catch((e) => console.log(e))
 
+
+    }
+    getProfile(req, res, next) {
+        console.log(req.user._doc?.username)
+        if (!req.user._doc?.username) {
+            return res.status(hs.NOT_FOUND).send({ message: "Beklenmedi bir hata oluştu" })
+        }
+        UserService.findOne({ username: req.user._doc?.username }).then((user) => {
+            res.status(hs.OK).send({
+                msg: "Profile Bilgileri",
+                user,
+
+            })
+        })
+            .catch(e => {
+                return res.status(hs.BAD_REQUEST).send({ message: `Bir hata oluştu ${e}` })
+            })
 
     }
 

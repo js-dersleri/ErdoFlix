@@ -27,3 +27,10 @@ const updateUser = Joi.object({
 
 }
 )
+
+module.exports = {
+    loginUser,
+    createUser,
+    resetUserPassword,
+    updateUser
+}
