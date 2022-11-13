@@ -1,36 +1,32 @@
+const hs = require("http-status")
 const Joi = require("joi")
 
-const loginUser = Joi.object({
-    email: Joi.string().email().regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).required().min(8),
-    password: Joi.string().required().min(3)
-})
-const createUser = Joi.object({
-    first_name: Joi.string().min(3).required().optional().pattern(new RegExp(/^[a-z ,.'-]+$/i)).message('Enter a eligible first name'),
-    last_name: Joi.string().required().min(3).pattern(new RegExp(/^[a-z ,.'-]+$/i)).message('Enter a eligible last name'),
-    email: Joi.string().email().required().min(8).pattern(new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i)).message('Enter a eligible email').min(8),
-    password: Joi.string().required().min(8).pattern(new RegExp(/[A-Za-z0-9\w\W]{8,}$/)).min(8).message('Enter a eligible password'),
-    phones: Joi.string().required().min(11).pattern(new RegExp(/[0-9]{11,}$/)).message('Enter a eligible phone number'),
-    isAdmin: Joi.boolean().default(true),
-    isCosmuter: Joi.boolean().default(false),
-    username: Joi.string().required().min(3),
-})
-const resetUserPassword = Joi.object({
-    email: Joi.string().email().regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).required().min(8)
-})
-const updateUser = Joi.object({
-    first_name: Joi.string().min(3).pattern(new RegExp(/^[a-z ,.'-]+$/i)).message('Enter a eligible first name'),
-    last_name: Joi.string().min(3).pattern(new RegExp(/^[a-z ,.'-]+$/i)).message('Enter a eligible last name'),
-    email: Joi.string().email().message('Enter a eligible email'),
-    password: Joi.string().pattern(new RegExp(/[A-Za-z0-9\w\W]{8,}$/)).min(8).message('Enter a eligible password'),
-    phones: Joi.string().min(8).pattern(new RegExp(/[0-9]{11,}$/)).message('Enter a eligible phone number'),
-
-
-}
-)
-
-module.exports = {
-    loginUser,
-    createUser,
-    resetUserPassword,
-    updateUser
+class AuthClass {
+    constructor () {
+    const login = async (req,res,next) => {
+        try {
+           await Joi.object({
+            email: Joi.string().email().trim().regex(/^[a-z ,.'-]+$/i).messages({"string.base": "Email formatına uygun olmalıdır." , "string.empty": "Email boş bırakılamaz" , "string.min": "Email minimum 3 karakter olabilir." , "string.required": "İsim alanı girmek zorunludur"}),
+            password: Joi.string().required().trim().min(3).messages({"string.base": "Parola formatına uygun olmalıdır." , "string.empty" : "Parola boş bırakılamaz", "string.min": "Parola minimum 3 karakter olabilir" , "string.required": "Parola alanını doldurmak zorunludur" })
+           }).validateAsync(req.body)
+        } catch (error) {
+            res.status(hs.BAD_REQUEST).send({ messages: "Bir hata oluştu"})
+            
+        }
+    }
+    const createUser = async (req,res,next)=> {
+        try {
+            await Joi.object({
+                first_name: Joi.string().required().trim().min(3).pattern.messages({"string.base":"İsim formatına uygun olmalıdır.", "string.empty": "İsim boş bırakalamaz.", "string.min": "İsim alanı minimum 3 karakter olabilir.", "string.required": "İsim alanı girmek zorunludur."}),
+                last_name: Joi.string().required().trim().min(2).pattern(new RegExp(/^[a-z ,.'-]+$/i)).messages({"string.base": "Uygun bir soyisim giriniz.", "string.empty": "Soyisim boş bırakalamaz.", "string.min": "Soyisim minimum 2 karakter olmalıdır.", "string.required": "Soyisim alanı girmek zorunludur.", "string.pattern.base": "Soyadında sayı bulunamaz."}),
+                email: Joi.string().required().trim().min(8).pattern(new RegExp(/^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/i)).messages({"string.email": "Email formatına uygun olmalıdır."," string.empty": "Email boş bırakalamaz.","string.min":"Email minumum 8 karakter olmalıdır.", "string.required": "Email boş bırakalamaz."}),
+                password: Joi.string().required().trim().min(8).pattern(new RegExp(/[A-Za-z0-9\w\W]{8,}$/)).messages({"string.base": "Şifre uygun değil.","string.empty": "Şifre boş bırakalamaz.","string.min": "Şifre minimum 8 karakter olmalıdır.", "string.required": "Şifre boş bırakalamaz."}),
+                isAdmin: Joi.boolean().default(true),
+                isCosmuter: Joi.boolean().default(false),
+            })
+        } catch (error) {
+            res.status(hs.BAD_REQUEST).send({ messages: "Bir hata oluştu"})
+        }
+    }
+    }
 }
